@@ -5,7 +5,6 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import zod from "zod";
 import jwt from "jsonwebtoken";
 
-
 const cookieOptions = {
     secure: process.env.NODE_ENV === 'development' ? true : false,
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
@@ -28,37 +27,22 @@ const generateAccessAndRefereshTokens = async (userId) => {
 }
 
 const registerUser = asyncHandler(async (req, res) => {
-    // get user details from frontend
-    // validation - not empty
-    // check if user already exists: username, email
-    // check for images, check for avatar
-    // upload them to cloudinary, avatar
-    // create user object - create entry in db
-    // remove password and refresh token field from response
-    // check for user creation
-    // return res
-
     const registerSchema = zod.object({
         email: zod.string().email(),
         username: zod.string().min(3).max(20).trim(),
         password: zod.string().min(8).max(20).trim(),
-        confirmPassword: zod.string().min(8).max(20).trim()
     })
 
 
-    // const { email, username, password, confirmPassword } = registerSchema.safeParse(req.body) /* Not Works */
-    const { email, username, password, confirmPassword } = registerSchema.parse(req.body)
-    // const { email, username, password, confirmPassword } = req.body
+    // const { email, username, password,  } = registerSchema.safeParse(req.body) /* Not Works */
+    const { email, username, password } = registerSchema.parse(req.body)
+    // const { email, username, password,  } = req.body
 
     if (
-        // [email, username, password, confirmPassword].some((field) => field?.trim() === "")
-        !email, !username, !password, !confirmPassword
+        // [email, username, password, ].some((field) => field?.trim() === "")
+        !email, !username, !password
     ) {
         throw new ApiError(400, "All fields are required")
-    }
-
-    if (password !== confirmPassword) {
-        throw new ApiError(400, "Password does not match")
     }
 
     const existedUser = await User.findOne({ email })
@@ -95,29 +79,17 @@ const registerUser = asyncHandler(async (req, res) => {
 })
 
 const loginUser = asyncHandler(async (req, res) => {
-    // req body -> data
-    // username or email
-    //find the user
-    //password check
-    //access and referesh token
-    //send cookie
-
     const loginSchema = zod.object({
         email: zod.string().email(),
-        password: zod.string().min(8).max(20).trim(),
-        confirmPassword: zod.string().min(8).max(20).trim()
+        password: zod.string().min(8).max(20).trim()
     })
 
-    const { email, password, confirmPassword } = req.body;
+    const { email, password } = req.body;
 
     const loginValidation = loginSchema.safeParse(req.body);
 
     if (!loginValidation.success) {
         throw new ApiError(400, "All fields are required")
-    }
-
-    if (password !== confirmPassword) {
-        throw new ApiError(400, "Password does not match")
     }
 
     const user = await User.findOne({
@@ -183,13 +155,13 @@ const changePassword = asyncHandler(async (req, res) => {
     const changePasswordSchema = zod.object({
         oldPassword: zod.string().min(8).max(20).trim(),
         newPassword: zod.string().min(8).max(20).trim(),
-        confirmPassword: zod.string().min(8).max(20).trim()
+        confirmNewPassword: zod.string().min(8).max(20).trim()
     })
 
     const { oldPassword, newPassword, confirmNewPassword } = req.body;
     const changePasswordValidation = changePasswordSchema.safeParse(req.body);
 
-    if (changePasswordValidation.success) {
+    if (!changePasswordValidation.success) {
         throw new ApiError(400, "All fields are Required")
     }
 
@@ -198,7 +170,7 @@ const changePassword = asyncHandler(async (req, res) => {
     }
 
     const { refreshToken } = req.cookies;
-
+    // console.log(refreshToken);
     if (!refreshToken) {
         throw new ApiError(404, "Signin to access this route")
     }
@@ -210,9 +182,12 @@ const changePassword = asyncHandler(async (req, res) => {
     }
 
     const userId = decoded?._id;
+    // console.log(userId);
 
     const user = await User.findById(userId).select("+password");
 
+    // console.log(user);
+    // console.log(oldPassword);
     const isPasswordValid = await user.comparePassword(oldPassword);
     console.log(isPasswordValid);
 
