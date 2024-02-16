@@ -1,5 +1,4 @@
 import doctorLogo from "../../assets/doctor-image.png";
-import propTypes from "prop-types";
 
 function Card({ title, description }) {
     return (
