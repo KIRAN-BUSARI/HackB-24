@@ -1,18 +1,19 @@
-import { useRecoilValue } from "recoil";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { auth } from "../../recoil/atom";
+import { useRecoilValue } from 'recoil'
+import { isLoggedInAtom, rolesAtom } from '../../recoil/atoms/atom.js'
+import { Navigate, Outlet, useLocation } from 'react-router-dom'
 
-const AuthRequired = ({ allowedRoles }) => {
-    const { isLoggedIn, role } = useRecoilValue(auth);
-    const location = useLocation();
+export const AuthRequired = ({ allowedRoles }) => {
+    const isLoggedIn = useRecoilValue(isLoggedInAtom)
+    const role = useRecoilValue(rolesAtom)
+    const location = useLocation()
 
-    return isLoggedIn && allowedRoles.find((myRole) => myRole === role) ? (
+
+    // return isLoggedIn && allowedRoles.find((myRole) => myRole === role) ? (
+    return isLoggedIn && allowedRoles.includes(role) ? (
         <Outlet />
     ) : isLoggedIn ? (
         <Navigate to={"/denied"} state={{ from: location }} replace />
     ) : (
-        <Navigate to={"/login"} state={{ from: location }} replace />
-    );
-};
-
-export default AuthRequired;
+        <Navigate to={"/signin"} state={{ from: location }} replace />
+    )
+}

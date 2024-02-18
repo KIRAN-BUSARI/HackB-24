@@ -10,20 +10,32 @@ import Card from "./pages/Community/Card";
 import AdminDashboard from "./pages/Community/AdminDashboard";
 import { CardContainer } from "./pages/Community/CardContainer";
 import AddCommunity from "./pages/AddCommunity";
+// import AuthRequired from "./components/Auth/AuthRequired";
+// import AuthNotRequired from "./components/Auth/AuthNotRequired"
+import Denied from "./pages/Denied";
+import { User } from "./pages/User";
+import { AuthRequired } from "./components/Auth/AuthRequired";
 function App() {
 
   return (
     <Routes>
       <Route path="/" element={<Layout />} >
         <Route path="" element={<Home />} />
-        {/* <Route path="/community" element={<Card />} /> */}
-        {/* <Route path="/communities" element={<CardContainer />} /> */}
-        {/* <Route path="/addCommunity" element={<AddCommunity />} /> */}
         <Route path="/signup" element={<Signup />} />
-        < Route path="/signin" element={<Signin />} />
-        {/* <Route path="/online-consultation" element={<Index />} /> */}
-        {/* <Route path="/room/:roomId" element={<Room />} /> */}
-        {/* <Route path="/adminDashboard" element={<AdminDashboard />} /> */}
+        <Route path="/signin" element={<Signin />} />
+
+        <Route path="/denied" element={<Denied />} />
+        <Route element={<AuthRequired allowedRoles={["ADMIN"]} />}>
+          <Route path="/user" element={<User />} />
+        </Route>
+        {/* <Route element={<AuthNotRequired />}> */}
+        {/* </Route> */}
+        <Route path="/community" element={<Card />} />
+        <Route path="/communities" element={<CardContainer />} />
+        <Route path="/addCommunity" element={<AddCommunity />} />
+        <Route path="/online-consultation" element={<Index />} />
+        <Route path="/room/:roomId" element={<Room />} />
+        <Route path="/adminDashboard" element={<AdminDashboard />} />
         <Route path="*" element={<PageNotFound />} />
       </Route >
     </Routes>
