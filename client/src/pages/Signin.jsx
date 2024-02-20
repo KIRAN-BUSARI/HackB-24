@@ -6,11 +6,16 @@ import { InputBox } from "../components/InputBox"
 import { SubHeading } from "../components/SubHeading"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
-import axiosInstance from "../axiosInstance"
-import zod from "zod";
-export const Signin = () => {
+import axiosInstance from "../Helper/axiosInstance"
+import { useSetRecoilState } from "recoil"
+import { isLoggedInAtom, rolesAtom } from "../recoil/atoms/atom"
+// import zod from "zod";
+const Signin = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const setIsLoggedIn = useSetRecoilState(isLoggedInAtom);
+    const setRole = useSetRecoilState(rolesAtom);
+
     // const [signinData, setSigninData] = useState({
     //     email: "",
     //     password: ""
@@ -69,8 +74,15 @@ export const Signin = () => {
                                 error: "Could not log in"
                             })
                             res = await res;
-                            localStorage.setItem("accessToken", res.data.accessToken)
-                            navigate("/")
+                            // console.log(res.data.data);
+                            if (res.data.success) {
+                                setIsLoggedIn(true)
+                                setRole(res.data.data.user.role)
+                                localStorage.setItem("isLoggedIn", true)
+                                localStorage.setItem("role", res.data.data.user.role)
+                                navigate("/")
+                                
+                            }
                         }} label={"Sign in"} />
                     </div>
                     <BottomWarning label={"Don't have an account?"} buttonText={"Sign up"} to={"/signup"} />
@@ -79,3 +91,5 @@ export const Signin = () => {
         </div>
     )
 }
+
+export default Signin;

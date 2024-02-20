@@ -1,6 +1,6 @@
 import { InputBox } from '../components/InputBox'
 import { Button } from '../components/Button'
-import axiosInstance from '../axiosInstance'
+import axiosInstance from '../Helper/axiosInstance'
 import toast from 'react-hot-toast'
 import { useState } from 'react'
 

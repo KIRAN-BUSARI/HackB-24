@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import { Signin } from "./pages/Signin";
+import Signin from "./pages/Signin";
+import Signout from "./pages/Signout";
 import Signup from "./pages/Signup";
 import PageNotFound from "./pages/PageNotFound";
 import Index from "./pages/OnlineAppointment/Index";
@@ -15,17 +16,20 @@ import AddCommunity from "./pages/AddCommunity";
 import Denied from "./pages/Denied";
 import { User } from "./pages/User";
 import { AuthRequired } from "./components/Auth/AuthRequired";
+// import { AuthNotRequired } from "./components/Auth/AuthNotRequired";
 function App() {
 
   return (
     <Routes>
+
       <Route path="/" element={<Layout />} >
         <Route path="" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
+        <Route path="/signout" element={<Signout />} />
 
         <Route path="/denied" element={<Denied />} />
-        <Route element={<AuthRequired allowedRoles={["ADMIN"]} />}>
+        <Route element={<AuthRequired allowedRoles={["ADMIN", "USER"]} />}>
           <Route path="/user" element={<User />} />
         </Route>
         {/* <Route element={<AuthNotRequired />}> */}

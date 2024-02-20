@@ -49,7 +49,7 @@ function Header() {
                                         lg:hover:bg-transparent lg:border-0 hover:text-orange-700 lg:p-0`
                                     }
                                 >
-                                    About
+                                    Appointments
                                 </NavLink>
                             </li>
                             <li>
@@ -60,7 +60,7 @@ function Header() {
                                         lg:hover:bg-transparent lg:border-0 hover:text-orange-700 lg:p-0`
                                     }
                                 >
-                                    Contact
+                                    Pharmacy
                                 </NavLink>
                             </li>
                             <li>
@@ -82,7 +82,7 @@ function Header() {
                                         lg:hover:bg-transparent lg:border-0 hover:text-orange-700 lg:p-0`
                                     }
                                 >
-                                    User
+                                    Commumnity
                                 </NavLink>
                             </li>
 

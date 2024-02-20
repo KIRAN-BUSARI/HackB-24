@@ -1,5 +1,5 @@
 import { useState } from "react"
-import zod from "zod";
+// import zod from "zod";
 import { toast } from "react-hot-toast"
 import { BottomWarning } from "../components/BottomWarning"
 import { Button } from "../components/Button"
@@ -7,7 +7,7 @@ import { Heading } from "../components/Heading"
 import { InputBox } from "../components/InputBox"
 import { SubHeading } from "../components/SubHeading"
 import { useNavigate } from "react-router-dom"
-import axiosInstance from "../axiosInstance"
+import axiosInstance from "../Helper/axiosInstance"
 
 function Signup() {
   const [username, setUsername] = useState("");

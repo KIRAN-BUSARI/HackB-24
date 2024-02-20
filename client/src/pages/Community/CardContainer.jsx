@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import Card from './Card'
-import axiosInstance from '../../axiosInstance'
+import axiosInstance from '../../Helper/axiosInstance'
 import toast from 'react-hot-toast'
 
 function CardContainer() {
