@@ -16,12 +16,13 @@ import AddCommunity from "./pages/AddCommunity";
 import Denied from "./pages/Denied";
 import { User } from "./pages/User";
 import { AuthRequired } from "./components/Auth/AuthRequired";
+import Loader from "./Loader";
 // import { AuthNotRequired } from "./components/Auth/AuthNotRequired";
 function App() {
 
   return (
     <Routes>
-
+      <Route path="loader" element={<Loader />} />
       <Route path="/" element={<Layout />} >
         <Route path="" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
